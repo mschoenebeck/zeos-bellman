@@ -1,3 +1,0 @@
-[submodule "json_struct"]
-	path = json_struct
-	url = https://github.com/mschoenebeck/json_struct.git
