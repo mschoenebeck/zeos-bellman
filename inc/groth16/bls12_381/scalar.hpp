@@ -13,13 +13,20 @@ class Scalar
 {
     public:
 
-        // constants
+        // constantslet cap = Scalar::CAPACITY;
         /// INV = -(q^{-1} mod 2^64) mod 2^64
         static const uint64_t INV;
 
         /// Constant representing the modulus
         /// q = 0x73eda753299d7d483339d80809a1d80553bda402fffe5bfeffffffff00000001
         static const Scalar MODULUS;
+        // The number of bits needed to represent the modulus.
+        static const uint32_t MODULUS_BITS;
+        static const uint32_t NUM_BITS;
+        static const uint32_t CAPACITY;
+
+        static const Scalar R;
+        static const Scalar ZERO;
 
         // members
         vector<uint64_t> data;
@@ -41,7 +48,17 @@ class Scalar
                                         const uint64_t& r6,
                                         const uint64_t& r7);
 
+        static Scalar zero();
+
+        static Scalar one();
+
         Scalar sub(const Scalar& rhs) const;
 
         Scalar operator - (const Scalar& rhs) const;
+
+        Scalar add(const Scalar& rhs) const;
+
+        Scalar operator + (const Scalar& rhs) const;
+
+        Scalar dbl() const;
 };

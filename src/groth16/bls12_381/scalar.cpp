@@ -14,6 +14,18 @@ const Scalar Scalar::MODULUS = Scalar(vector<uint64_t>{
     0x3339'd808'09a1'd805,
     0x73ed'a753'299d'7d48
 });
+const uint32_t Scalar::MODULUS_BITS = 255;
+const uint32_t Scalar::NUM_BITS = Scalar::MODULUS_BITS;
+const uint32_t Scalar::CAPACITY = Scalar::NUM_BITS -1;
+
+/// R = 2^256 mod q
+const Scalar Scalar::R = Scalar(vector<uint64_t>{
+    0x0000'0001'ffff'fffe,
+    0x5884'b7fa'0003'4802,
+    0x998c'4fef'ecbc'4ff5,
+    0x1824'b159'acc5'056f,
+});
+const Scalar Scalar::ZERO = Scalar({0, 0, 0, 0});
 
 Scalar::Scalar() : data(vector<uint64_t>())
 {
@@ -90,6 +102,16 @@ Scalar Scalar::montgomery_reduce(const uint64_t& r0,
     return (Scalar(vector<uint64_t>{rr4, rr5, rr6, rr7})).sub(MODULUS);
 }
 
+Scalar Scalar::zero()
+{
+    return ZERO;
+}
+
+Scalar Scalar::one()
+{
+    return R;
+}
+
 Scalar Scalar::sub(const Scalar& rhs) const
 {
     uint64_t _, d0, d1, d2, d3, borrow, carry;
@@ -111,4 +133,27 @@ Scalar Scalar::sub(const Scalar& rhs) const
 Scalar Scalar::operator - (const Scalar& rhs) const
 {
     return this->sub(rhs);
+}
+
+Scalar Scalar::add(const Scalar& rhs) const
+{
+    uint64_t _, d0, d1, d2, d3, carry;
+    tie(d0, carry) = adc(this->data[0], rhs.data[0], 0);
+    tie(d1, carry) = adc(this->data[1], rhs.data[1], carry);
+    tie(d2, carry) = adc(this->data[2], rhs.data[2], carry);
+    tie(d3, _)     = adc(this->data[3], rhs.data[3], carry);
+
+    // Attempt to subtract the modulus, to ensure the value
+    // is smaller than the modulus.
+    return Scalar(vector<uint64_t>{d0, d1, d2, d3}).sub(MODULUS);
+}
+
+Scalar Scalar::operator + (const Scalar& rhs) const
+{
+    return this->add(rhs);
+}
+
+Scalar Scalar::dbl() const
+{
+    return this->add(*this);
 }
