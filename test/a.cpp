@@ -2,6 +2,7 @@
 #include <sstream>
 #include <string>
 #include <vector>
+#include <chrono>
 
 #include <json_struct.h>
 #include "groth16/verifier.hpp"
@@ -16,6 +17,8 @@ const char inputs_str[] = "[{\"data\":[8607175986312658769,16500865648227469575,
 //const char proof_str[] = "{\"a\":{\"x\":{\"data\":[11281214743188095108,7324960852881245773,16323074521503261530,7935442180524566485,3447205503407154254,142696605983680825]},\"y\":{\"data\":[12959333984886701833,7557107698944420430,10229267066654835700,4267746412519327896,683852416278172248,685037468885050226]},\"infinity\":{\"data\":0}},\"b\":{\"x\":{\"c0\":{\"data\":[4489172262238247121,65327003249188103,9875490749400609176,9708019759866291059,13811407545776824185,605904864226976272]},\"c1\":{\"data\":[10857120443589108310,8117251748703107106,4071018462117451686,9539327385730157308,5187384769016239525,1229022557506643579]}},\"y\":{\"c0\":{\"data\":[12371344812501916242,13880608924742898686,12684360797548923548,7908539914859763307,747934384853808855,291739538199426247]},\"c1\":{\"data\":[8700430337445437660,2568693626588558167,12346231620464952391,10857595540458505831,2666845546159284308,354222503363084332]}},\"infinity\":{\"data\":0}},\"c\":{\"x\":{\"data\":[685179753558974742,18240946522920941153,8481567336493327996,5233494953992381856,5791281528757539263,1501267797956638369]},\"y\":{\"data\":[13024671334677689105,17824851971584033097,8770117755147595354,11381201407111114616,239678930193425203,953532897345263433]},\"infinity\":{\"data\":0}}}";
 //const char inputs_str[] = "[{\"data\":[11280786627794629505,15465988939752547151,1510186046958900449,7392355891667949747]},{\"data\":[0,0,0,0]}]";
 
+using namespace std;
+
 int main()
 {
     Proof proof;
@@ -23,6 +26,9 @@ int main()
     PreparedVerifyingKey pvk;
     vector<Scalar> inputs;
 
+    auto t0 = chrono::high_resolution_clock::now();
+
+    // parse structs
     JS::ParseContext parseContext(vk_str);
     parseContext.parseTo(vk);
     
@@ -32,12 +38,31 @@ int main()
     parseContext = JS::ParseContext(inputs_str);
     parseContext.parseTo(inputs);
     
+    auto t1 = chrono::high_resolution_clock::now();
+    
+    // prepare verifying key
     pvk = prepare_verifying_key(vk);
     
-    if(verify_proof(pvk, proof, inputs))
-        std::cout << "success!" << std::endl;
+    auto t2 = chrono::high_resolution_clock::now();
+    
+    // verify proof
+    bool b = verify_proof(pvk, proof, inputs);
+    
+    auto t3 = chrono::high_resolution_clock::now();
+    
+    if(b)
+        cout << "success!" << std::endl;
     else
-        std::cout << "proof invalid" << std::endl;
+        cout << "proof invalid" << std::endl;
+    
+    // time measurements
+    auto parse_ms = std::chrono::duration_cast<std::chrono::milliseconds>(t1 - t0);
+    auto pvk_ms = std::chrono::duration_cast<std::chrono::milliseconds>(t2 - t1);
+    auto verify_ms = std::chrono::duration_cast<std::chrono::milliseconds>(t3 - t2);
+    
+    cout << "parse structs: " << parse_ms.count() << " ms" << endl;
+    cout << "preparing vk: " << pvk_ms.count() << " ms" << endl;
+    cout << "verify proof: " << verify_ms.count() << " ms" << endl;
     
     return 0;
 }
