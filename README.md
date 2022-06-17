@@ -27,7 +27,7 @@ Note: In a production environment the `inputs` string need to be generated on ch
 
 ## Developer Dependencies
 
-* [zeos.hpp]() ZEOS header-only library for EOSIO smart contracts.
+* [zeos.hpp](https://github.com/mschoenebeck/thezeostoken/blob/e0fbc92168c549d3d22c6ee6b56d456de13b2809/contracts/eos/thezeostoken/zeos.hpp) ZEOS header-only library for EOSIO smart contracts.
 
 ## Contributing
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
