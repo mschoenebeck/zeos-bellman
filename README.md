@@ -23,7 +23,7 @@ Note: In a production environment the `inputs` string need to be generated on ch
 
 ## Dependencies
 
-* [json_struct](https://github.com/mschoenebeck/json_struct) to parse input strings.
+* [json_struct](https://github.com/mschoenebeck/json_struct) EOSIO compatible header-only library to parse json strings to C structs.
 
 ## Developer Dependencies
 
