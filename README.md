@@ -1,12 +1,15 @@
 # ZEOS Bellman
 
-ZEOS Bellman is a fully EOSIO compatible C++ implementation of 'groth16' verifier of the [bellman](https://github.com/zkcrypto/bellman/) crate used in ZCash Sapling. 
+ZEOS Bellman is a fully EOSIO compatible C++ implementation of the 'groth16' zk-SNARK verifier of the [bellman](https://github.com/zkcrypto/bellman/) crate used in ZCash Sapling. It contains the Implementation over curve BLS12-381 as implemented in the [bls12-381](https://github.com/zkcrypto/bls12_381) crate.
 
-## Installation
+## Getting Started
 
-No installation necessary.
+Clone this repository:
 
-## Usage
+```
+git clone https://github.com/mschoenebeck/zeos-bellman.git
+cd zeos-bellman
+```
 
 Head into the 'test' folder to run an example of a proof verification.
 
@@ -29,10 +32,15 @@ Note: In a production environment the `inputs` string need to be generated on ch
 
 * [zeos.hpp](https://github.com/mschoenebeck/thezeostoken/blob/e0fbc92168c549d3d22c6ee6b56d456de13b2809/contracts/eos/thezeostoken/zeos.hpp) ZEOS header-only library for EOSIO smart contracts.
 
-## Contributing
-Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
-
-Please make sure to update tests as appropriate.
+## Help
+If you need help join us on [Telegram](https://t.me/ZeosOnEos).
 
 ## License
-[MIT](https://choosealicense.com/licenses/mit/)
+
+It's open source. Do with it whatever you want.
+
+## Acknowledgments
+
+Big thanks to the Electric Coin Company for developing, documenting and maintaining this awesome open source codebase for zk-SNARKs!
+
+* [Zcash Protocol Specification](https://zips.z.cash/protocol/protocol.pdf)
