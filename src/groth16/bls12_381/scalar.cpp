@@ -63,7 +63,7 @@ Scalar Scalar::montgomery_reduce(const uint64_t& r0,
                                  const uint64_t& r4,
                                  const uint64_t& r5,
                                  const uint64_t& r6,
-                                 const uint64_t& r7)
+                                 const uint64_t& r7) const
 {
     // The Montgomery reduction here is based on Algorithm 14.32 in
     // Handbook of Applied Cryptography
