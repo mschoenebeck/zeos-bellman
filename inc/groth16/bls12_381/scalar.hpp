@@ -39,14 +39,14 @@ class Scalar
         /// little-endian byte order.
         vector<uint8_t> to_bytes() const;
 
-        static Scalar montgomery_reduce(const uint64_t& r0,
-                                        const uint64_t& r1,
-                                        const uint64_t& r2,
-                                        const uint64_t& r3,
-                                        const uint64_t& r4,
-                                        const uint64_t& r5,
-                                        const uint64_t& r6,
-                                        const uint64_t& r7);
+        Scalar montgomery_reduce(const uint64_t& r0,
+                                 const uint64_t& r1,
+                                 const uint64_t& r2,
+                                 const uint64_t& r3,
+                                 const uint64_t& r4,
+                                 const uint64_t& r5,
+                                 const uint64_t& r6,
+                                 const uint64_t& r7) const;
 
         static Scalar zero();
 
